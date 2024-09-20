@@ -55,12 +55,12 @@ async function createCalendar(schedule) {
 			{
 				title: `Node ${version}`,
 				start: [...release.start.split("-").map(Number), 0, 0],
-				duration: { hours: 24 },
+				end: [...release.end.split("-").map(Number), 23, 59],
 			},
 			release.lts ? {
 				title: `Node ${version} LTS`,
 				start: [...release.lts.split("-").map(Number), 0, 0],
-				duration: { hours: 24 },
+				end: [...release.lts.split("-").map(Number), 23, 59],
 			} : undefined
 		];
 	}).filter(item => item);
