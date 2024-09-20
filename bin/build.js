@@ -57,8 +57,6 @@ async function createCalendar(schedule) {
 		})
 	);
 
-	console.log(Object.keys(supportedVersions))
-
 	const events = Object.entries(supportedVersions).flatMap(([version, release]) => {
 		return [
 			{
@@ -140,10 +138,10 @@ function getTitle(type, version) {
 function getDescription(release) {
 	const fragments = [
 		release.codename ? `Codename: "${release.codename}"` : '',
-		`Initial Release: "${release.start}"`,
-		release.lts ? `Active LTS Start: "${release.lts}"` : '',
-		`Maintenance Start: "${release.maintenance}"`,
-		`End-of-life: "${release.end}"`,
+		`Initial Release: ${release.start}`,
+		release.lts ? `Active LTS Start: ${release.lts}` : '',
+		`Maintenance Start: ${release.maintenance}`,
+		`End-of-life: ${release.end}`,
 	];
 
 	return fragments.join('\n');
