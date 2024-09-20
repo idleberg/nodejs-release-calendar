@@ -50,12 +50,14 @@ async function createCalendar(schedule) {
 		})
 	);
 
+	console.log(Object.keys(supportedVersions))
+
 	const events = Object.entries(supportedVersions).flatMap(([version, release]) => {
 		return [
 			{
 				title: `Node ${version}`,
 				start: [...release.start.split("-").map(Number), 0, 0],
-				end: [...release.end.split("-").map(Number), 23, 59],
+				end: [...release.start.split("-").map(Number), 23, 59],
 			},
 			release.lts ? {
 				title: `Node ${version} LTS`,
