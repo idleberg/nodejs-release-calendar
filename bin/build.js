@@ -5,6 +5,7 @@ import { minify as htmlMinify } from 'html-minifier-terser';
 import { promises as fs } from 'node:fs';
 import { render } from 'ejs';
 import { resolve } from 'node:path';
+import { get } from 'node:http';
 
 const outputFile = 'nodejs-releases.ics';
 
@@ -35,7 +36,6 @@ async function main() {
 	console.log(`\n\u{2728} Successfully created web page`);
 }
 
-
 async function downloadSchedule() {
 	console.time('Downloading schedule.json');
 	const result = await fetch("https://raw.githubusercontent.com/nodejs/Release/refs/heads/main/schedule.json");
@@ -59,35 +59,10 @@ async function createCalendar(schedule) {
 
 	const events = Object.entries(supportedVersions).flatMap(([version, release]) => {
 		return [
-			{
-				...icsDefaultOptions,
-				title: getTitle('Current', version),
-				start: [...release.start.split('-').map(Number), 0, 0],
-				end: [...release.start.split('-').map(Number), 23, 59],
-			},
-
-			release.lts ? {
-				...icsDefaultOptions,
-				title: getTitle('LTS', version),
-				description: getDescription(release),
-				start: [...release.lts.split('-').map(Number), 0, 0],
-				end: [...release.lts.split('-').map(Number), 23, 59],
-			} : undefined,
-
-			{
-				...icsDefaultOptions,
-				title: getTitle('Maintenance', version),
-				description: getDescription(release),
-				start: [...release.maintenance.split('-').map(Number), 0, 0],
-				end: [...release.maintenance.split('-').map(Number), 23, 59],
-			},
-
-		{
-				...icsDefaultOptions,
-				title: getTitle('End-of-life', version, release),
-				start: [...release.end.split('-').map(Number), 0, 0],
-				end: [...release.end.split('-').map(Number), 23, 59],
-			}
+			getType('Current', version, release.start),
+			release.lts ? getType('LTS', version, release.lts) : undefined,
+			getType('Maintenance', version, release.maintenance),
+			getType('End-of-life', version, release.end),
 		];
 	}).filter(item => item);
 
@@ -101,7 +76,6 @@ async function createCalendar(schedule) {
 	await fs.writeFile(`public/${outputFile}`, value, 'utf-8');
 	console.timeEnd(`Writing ${outputFile}`);
 }
-
 
 async function createPage(version) {
 	console.time('Creating page');
@@ -133,6 +107,16 @@ function getTitle(type, version) {
 	];
 
 	return fragments.join(' ');
+}
+
+function getType(type, version, date) {
+	return {
+			...icsDefaultOptions,
+		title: getTitle(type, version),
+		description: getDescription(release),
+		start: [...date.split('-').map(Number), 0, 0],
+		end: [...date.split('-').map(Number), 23, 59],
+	};
 }
 
 function getDescription(release) {
