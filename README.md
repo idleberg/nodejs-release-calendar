@@ -1,6 +1,6 @@
 # 📆 Node.js Release Calendar
 
-> Node.js Release Calendar for Apple Calendar, Outlook etc.
+> A calendar for Apple Calendar, Outlook etc. containing all upcoming Node.js releases.
 
 [![Build](https://img.shields.io/github/actions/workflow/status/idleberg/nodejs-release-calendar/gh-pages.yml?style=for-the-badge)](https://github.com/idleberg/nodejs-release-calendar/actions)
 

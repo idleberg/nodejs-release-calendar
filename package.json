@@ -1,8 +1,6 @@
 {
   "name": "node-release-calendar",
-  "version": "0.0.0",
   "private": true,
-  "description": "Node.js Release Calendar for Apple Calendar, Outlook etc.",
   "type": "module",
   "scripts": {
     "build": "npm-run-all --parallel build:*",
