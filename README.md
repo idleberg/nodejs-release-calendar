@@ -6,7 +6,7 @@
 
 **TL;DR**
 
-Subscribe to this URL:
+All you need to do is subscribe to this URL:
 
 ```
 https://idleberg.github.io/nodejs-release-calendar/nodejs-releases.ics
