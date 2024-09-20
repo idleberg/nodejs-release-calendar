@@ -4,10 +4,12 @@
 
 [![Build](https://img.shields.io/github/actions/workflow/status/idleberg/nodejs-release-calendar/gh-pages.yml?style=for-the-badge)](https://github.com/idleberg/nodejs-release-calendar/actions)
 
+**TL;DR**
+
 Subscribe to this URL:
 
 ```
-https://idleberg.github.io/nodejs-release-calendar/node-releases.ics
+https://idleberg.github.io/nodejs-release-calendar/nodejs-releases.ics
 ```
 
 ## Self-hosted
