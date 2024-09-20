@@ -17,6 +17,8 @@ const htmlMinifyOptions = {
 await main();
 
 async function main() {
+	await fs.mkdir("public", { recursive: true });
+
 	const schedule = await downloadSchedule();
 
 	await createCalendar(schedule);
@@ -84,12 +86,11 @@ async function createPage(version) {
 	const icon = (await fs.readFile(iconFile)).toString();
 
 	const html = await htmlMinify(render(template, { version }), htmlMinifyOptions);
+
 	const favicon = await htmlMinify(icon, {
 		...htmlMinifyOptions,
 		removeAttributeQuotes: false,
 	});
-
-	await fs.mkdir("public", { recursive: true });
 
 	await fs.writeFile("public/favicon.svg", favicon);
 	await fs.writeFile("public/index.html", html);
