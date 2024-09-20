@@ -28,7 +28,7 @@ bun run build
 ```
 
 > [!TIP]  
-> I'm using Bun as my JavaScript runtime. If you don't you can use `npm` instead.
+> I'm using Bun as my JavaScript runtime. If you don't, you can replace both `bun` commands in the example with `npm` or the likes.
 
 You can now deploy the files inside the `public`-folder to your webspace.
 
