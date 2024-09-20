@@ -25,6 +25,7 @@ async function main() {
 	console.log(`\n\u{2728} Successfully created calendar`);
 
 	await createPage();
+	console.log(`\n\u{2728} Successfully created web page`);
 }
 
 
@@ -71,7 +72,7 @@ async function createCalendar(schedule) {
 	}
 
 	console.time(`Writing ${outputFile}`);
-	await fs.writeFile(outputFile, value, 'utf-8');
+	await fs.writeFile(`public/${outputFile}`, value, 'utf-8');
 	console.timeEnd(`Writing ${outputFile}`);
 }
 
