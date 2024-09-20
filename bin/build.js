@@ -100,9 +100,9 @@ async function createPage(version) {
 
 function getTitle(type, version) {
 	const fragments = [
+		`${type}:`,
 		`Node.js`,
 		version,
-		type,
 	];
 
 	return fragments.join(' ');
