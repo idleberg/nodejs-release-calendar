@@ -1,3 +1,5 @@
+#!/usr/bin/env bun
+
 import { createEvents } from "ics";
 import { minify as htmlMinify } from "html-minifier-terser";
 import { promises as fs } from "node:fs";
@@ -86,6 +88,8 @@ async function createPage(version) {
 		...htmlMinifyOptions,
 		removeAttributeQuotes: false,
 	});
+
+	await fs.mkdir("public", { recursive: true });
 
 	await fs.writeFile("public/favicon.svg", favicon);
 	await fs.writeFile("public/index.html", html);
