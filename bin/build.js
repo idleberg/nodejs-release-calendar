@@ -5,7 +5,6 @@ import { minify as htmlMinify } from 'html-minifier-terser';
 import { promises as fs } from 'node:fs';
 import { render } from 'ejs';
 import { resolve } from 'node:path';
-import { get } from 'node:http';
 
 const outputFile = 'nodejs-releases.ics';
 
@@ -59,10 +58,10 @@ async function createCalendar(schedule) {
 
 	const events = Object.entries(supportedVersions).flatMap(([version, release]) => {
 		return [
-			getType('Current', version, release.start),
-			release.lts ? getType('LTS', version, release.lts) : undefined,
-			getType('Maintenance', version, release.maintenance),
-			getType('End-of-life', version, release.end),
+			getType('Current', version, release, release.start),
+			release.lts ? getType('LTS', version, release, release.lts) : undefined,
+			getType('Maintenance', version, release, release.maintenance),
+			getType('End-of-life', version, release, release.end),
 		];
 	}).filter(item => item);
 
@@ -109,7 +108,7 @@ function getTitle(type, version) {
 	return fragments.join(' ');
 }
 
-function getType(type, version, date) {
+function getType(type, version, release, date) {
 	return {
 			...icsDefaultOptions,
 		title: getTitle(type, version),
