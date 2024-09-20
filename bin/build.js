@@ -63,31 +63,33 @@ async function createCalendar(schedule) {
 		return [
 			{
 				...icsDefaultOptions,
-				title: getReleaseName('Current', version, release),
+				title: getTitle('Current', version),
 				start: [...release.start.split('-').map(Number), 0, 0],
 				end: [...release.start.split('-').map(Number), 23, 59],
 			},
 
 			release.lts ? {
 				...icsDefaultOptions,
-				title: getReleaseName('LTS', version, release),
+				title: getTitle('LTS', version),
+				description: getDescription(release),
 				start: [...release.lts.split('-').map(Number), 0, 0],
 				end: [...release.lts.split('-').map(Number), 23, 59],
 			} : undefined,
 
-			release.maintenance ? {
+			{
 				...icsDefaultOptions,
-				title: getReleaseName('Maintenance', version, release),
+				title: getTitle('Maintenance', version),
+				description: getDescription(release),
 				start: [...release.maintenance.split('-').map(Number), 0, 0],
 				end: [...release.maintenance.split('-').map(Number), 23, 59],
-			} : undefined,
+			},
 
-			release.end ? {
+		{
 				...icsDefaultOptions,
-				title: getReleaseName('End-of-life', version, release),
+				title: getTitle('End-of-life', version, release),
 				start: [...release.end.split('-').map(Number), 0, 0],
 				end: [...release.end.split('-').map(Number), 23, 59],
-			} : undefined
+			}
 		];
 	}).filter(item => item);
 
@@ -125,13 +127,24 @@ async function createPage(version) {
 	console.timeEnd('Creating page');
 }
 
-function getReleaseName(type, version, release) {
+function getTitle(type, version) {
 	const fragments = [
 		`Node.js`,
 		version,
 		type,
-		release.codename ? `"${release.codename}"` : '',
 	];
 
 	return fragments.join(' ');
+}
+
+function getDescription(release) {
+	const fragments = [
+		release.codename ? `Codename: "${release.codename}"` : '',
+		`Initial Release: "${release.start}"`,
+		release.lts ? `Active LTS Start: "${release.lts}"` : '',
+		`Maintenance Start: "${release.maintenance}"`,
+		`End-of-life: "${release.end}"`,
+	];
+
+	return fragments.join('\n');
 }
