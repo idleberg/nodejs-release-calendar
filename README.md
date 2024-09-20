@@ -34,4 +34,4 @@ You can now deploy the files inside the `public`-folder to your webspace.
 
 ## Related
 
-[Node.js Releases](https://github.com/nodejs/release)
+- [Node.js Releases](https://github.com/nodejs/release)
