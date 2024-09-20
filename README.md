@@ -27,7 +27,7 @@ cd nodejs-release-calendar && bun install
 bun run build
 ```
 
-> [!INFO]  
+> [!TIP]  
 > I'm using Bun as my JavaScript runtime. If you don't you can use `npm` instead.
 
 You can now deploy the files inside the `public`-folder to your webspace.
