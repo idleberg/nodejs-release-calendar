@@ -109,12 +109,14 @@ function getTitle(type, version) {
 }
 
 function getType(type, version, release, date) {
+	const ymd = date.split('-').map(Number);
+
 	return {
 			...icsDefaultOptions,
 		title: getTitle(type, version),
 		description: getDescription(release),
-		start: [...date.split('-').map(Number), 0, 0],
-		end: [...date.split('-').map(Number), 23, 59],
+		start: [...ymd, 0, 0],
+		end: [ymd[0], ymd[1], ymd[2] + 1, 0, 0],
 	};
 }
 
