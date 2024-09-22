@@ -9,15 +9,18 @@ import { resolve } from 'node:path';
 const outputFile = 'nodejs-releases.ics';
 
 const htmlMinifyOptions = {
-	calName: 'Node.js Releases',
 	collapseWhitespace: true,
 	removeAttributeQuotes: true,
 	removeComments: true,
 };
 
 const icsDefaultOptions = {
-	startOutputType: 'utc',
+	calName: 'Node.js Releases',
+	endInputType: 'utc',
 	endOutputType: 'utc',
+	productId: 'idleberg/nodejs-release-calendar',
+	startInputType: 'utc',
+	startOutputType: 'utc',
 	url: 'https://nodejs.org',
 };
 
