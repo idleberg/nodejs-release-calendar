@@ -53,7 +53,7 @@ async function createCalendar(schedule) {
 
 	const supportedVersions = Object.fromEntries(
 		Object.entries(schedule).filter(([, release]) => {
-			return new Date(release.end).getTime() > new Date(String(today)).getTime();
+			return getUtcDate(release.end).getTime() > getUtcDate(String(today)).getTime();
 		})
 	);
 
@@ -133,4 +133,10 @@ function getDescription(release) {
 	];
 
 	return fragments.join('\n');
+}
+
+function getUtcDate(dateString) {
+	const date = new Date(dateString);
+
+	return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
 }
