@@ -16,9 +16,7 @@ const htmlMinifyOptions = {
 
 const icsDefaultOptions = {
 	calName: 'Node.js Releases',
-	endInputType: 'utc',
 	productId: 'idleberg/nodejs-release-calendar',
-	startInputType: 'utc',
 	url: 'https://nodejs.org',
 };
 
