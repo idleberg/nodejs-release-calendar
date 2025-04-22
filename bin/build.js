@@ -1,18 +1,9 @@
 #!/usr/bin/env bun
 
-import { createEvents } from 'ics';
-import { minify as htmlMinify } from 'html-minifier-terser';
 import { promises as fs } from 'node:fs';
-import { render } from 'ejs';
-import { resolve } from 'node:path';
+import { createEvents } from 'ics';
 
 const outputFile = 'nodejs-releases.ics';
-
-const htmlMinifyOptions = {
-	collapseWhitespace: true,
-	removeAttributeQuotes: true,
-	removeComments: true,
-};
 
 const icsDefaultOptions = {
 	calName: 'Node.js Releases',
@@ -28,15 +19,12 @@ async function main() {
 	const schedule = await downloadSchedule();
 
 	await createCalendar(schedule);
-	console.log(`\n\u{2728} Successfully created calendar`);
-
-	await createPage();
-	console.log(`\n\u{2728} Successfully created web page`);
+	console.log('\n\u{2728} Successfully created calendar');
 }
 
 async function downloadSchedule() {
 	console.time('Downloading schedule.json');
-	const result = await fetch("https://raw.githubusercontent.com/nodejs/Release/refs/heads/main/schedule.json");
+	const result = await fetch('https://raw.githubusercontent.com/nodejs/Release/refs/heads/main/schedule.json');
 	console.timeEnd('Downloading schedule.json');
 
 	if (!result.ok) {
@@ -52,17 +40,19 @@ async function createCalendar(schedule) {
 	const supportedVersions = Object.fromEntries(
 		Object.entries(schedule).filter(([, release]) => {
 			return getUtcDate(release.end).getTime() > getUtcDate(String(today)).getTime();
-		})
+		}),
 	);
 
-	const events = Object.entries(supportedVersions).flatMap(([version, release]) => {
-		return [
-			getType('Current', version, release, release.start),
-			release.lts ? getType('LTS', version, release, release.lts) : undefined,
-			getType('Maintenance', version, release, release.maintenance),
-			getType('End-of-life', version, release, release.end),
-		];
-	}).filter(item => item);
+	const events = Object.entries(supportedVersions)
+		.flatMap(([version, release]) => {
+			return [
+				getType('Current', version, release, release.start),
+				release.lts ? getType('LTS', version, release, release.lts) : undefined,
+				getType('Maintenance', version, release, release.maintenance),
+				getType('End-of-life', version, release, release.end),
+			];
+		})
+		.filter((item) => item);
 
 	const { error, value } = createEvents(events);
 
@@ -75,34 +65,8 @@ async function createCalendar(schedule) {
 	console.timeEnd(`Writing ${outputFile}`);
 }
 
-async function createPage(version) {
-	console.time('Creating page');
-
-	const templateFile = resolve('./src/template.ejs');
-	const iconFile = resolve('./src/favicon.svg');
-
-	const template = (await fs.readFile(templateFile)).toString();
-	const icon = (await fs.readFile(iconFile)).toString();
-
-	const html = await htmlMinify(render(template, { version }), htmlMinifyOptions);
-
-	const favicon = await htmlMinify(icon, {
-		...htmlMinifyOptions,
-		removeAttributeQuotes: false,
-	});
-
-	await fs.writeFile('public/favicon.svg', favicon);
-	await fs.writeFile('public/index.html', html);
-
-	console.timeEnd('Creating page');
-}
-
 function getTitle(type, version) {
-	const fragments = [
-		`${type}:`,
-		`Node.js`,
-		version,
-	];
+	const fragments = [`${type}:`, 'Node.js', version];
 
 	return fragments.join(' ');
 }
@@ -111,12 +75,12 @@ function getType(type, version, release, date) {
 	const ymd = date.split('-').map(Number);
 
 	return {
-			...icsDefaultOptions,
+		...icsDefaultOptions,
 		title: getTitle(type, version),
 		description: getDescription(release),
 		start: [...ymd, 0, 0],
 		duration: {
-			days: 1
+			days: 1,
 		},
 	};
 }

@@ -1,0 +1,12 @@
+import devcert from '@idleberg/vite-plugin-devcert';
+import tailwindcss from '@tailwindcss/vite';
+import { defineConfig } from 'astro/config';
+
+export default defineConfig({
+	site: 'https://idleberg.github.io',
+	base: '/nodejs-release-calendar/',
+	output: 'static',
+	vite: {
+		plugins: [devcert(), tailwindcss()],
+	},
+});

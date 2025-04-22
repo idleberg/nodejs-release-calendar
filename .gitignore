@@ -1,5 +1,9 @@
-*.ics
+# package manager
 node_modules/
-package-lock.json
-pnpm-lock.yaml
-public/
+
+# build
+.astro/
+dist/
+
+# project-specific
+*.ics
