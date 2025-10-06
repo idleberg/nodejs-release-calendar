@@ -18,22 +18,22 @@ const { page } = Astro.props;
 		<link rel="icon" href="favicon.svg" />
 
 		<script>
-			document.addEventListener("DOMContentLoaded", () => {
-				const button: HTMLButtonElement = document.querySelector("button")!;
-				const message: HTMLSpanElement =
-					document.querySelector("#clipboard-message")!;
+			const button: HTMLButtonElement = document.querySelector("button")!;
+			const message: HTMLSpanElement =
+				document.querySelector("#clipboard-message")!;
 
-				button.addEventListener("click", () => {
-					const downloadLink = new URL(`${location.pathname}nodejs-releases.ics`, location.origin)
-						.href;
+			button.addEventListener("click", () => {
+				const downloadLink = new URL(
+					`${import.meta.env.BASE_URL}nodejs-releases.ics`,
+					location.origin
+				).href;
 
-					navigator.clipboard.writeText(downloadLink);
-					message.style.opacity = "1";
+				navigator.clipboard.writeText(downloadLink);
+				message.style.opacity = "1";
 
-					setTimeout(() => {
-						message.style.opacity = "0";
-					}, 2000);
-				});
+				setTimeout(() => {
+					message.style.opacity = "0";
+				}, 2000);
 			});
 		</script>
 	</head>
