@@ -1,5 +1,6 @@
 ---
 import '../global.css';
+const { page } = Astro.props;
 ---
 
 <!doctype html>
@@ -23,7 +24,7 @@ import '../global.css';
 					document.querySelector("#clipboard-message")!;
 
 				button.addEventListener("click", () => {
-					const downloadLink = new URL("nodejs-releases.ics", location.origin)
+					const downloadLink = new URL(`${location.pathname}nodejs-releases.ics`, location.origin)
 						.href;
 
 					navigator.clipboard.writeText(downloadLink);
